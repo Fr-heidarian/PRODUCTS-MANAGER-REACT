@@ -8,6 +8,11 @@ function App() {
     <Container sx={{ paddingTop: "2rem" }}>
       <Grid container spacing={2}>
         <Header />
+        <Grid item xs={12}>
+          <Item>
+            <ProductTable />
+          </Item>
+        </Grid>
       </Grid>
     </Container>
   );
