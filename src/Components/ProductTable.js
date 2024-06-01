@@ -14,7 +14,9 @@ export default function ProductTable() {
     const readProducts = async () => {
       try {
         const response = await axios.get(PRODUCTS_URL);
-        setProducts(response.data.products);
+        if (response.status === 200) {
+          setProducts(response.data.products);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -54,5 +56,5 @@ export default function ProductTable() {
     return { ...p, createdAt: new Date(p.createdAt).toDateString() };
   });
 
-  return <DataGrid columns={columns} rows={products}></DataGrid>;
+  return <DataGrid columns={columns} rows={rows}></DataGrid>;
 }

@@ -1,5 +1,5 @@
-import ProductTable from "./Com/ProductTable";
-import Header from "./Com/Header";
+import ProductTable from "./Components/ProductTable";
+import Header from "./Components/Header";
 import { Container, Grid } from "@mui/material";
 import Item from "@mui/material/Grid";
 
