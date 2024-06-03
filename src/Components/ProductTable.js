@@ -6,14 +6,17 @@ import { IconButton } from "@mui/material";
 import PreviewIcon from "@mui/icons-material/Preview";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ViewModal from "./ViewModal";
 
 export default function ProductTable() {
   const [products, setProducts] = useState([]);
+  const [viewModalId, setViewModalId] = useState(undefined);
 
   useEffect(() => {
     const readProducts = async () => {
       try {
         const response = await axios.get(PRODUCTS_URL);
+
         if (response.status === 200) {
           setProducts(response.data.products);
         }
@@ -34,10 +37,13 @@ export default function ProductTable() {
       field: "actions",
       headerName: "Actions",
       width: 150,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <>
-            <IconButton color="success">
+            <IconButton
+              color="success"
+              onClick={() => setViewModalId(params.id)}
+            >
               <PreviewIcon />
             </IconButton>
             <IconButton color="warning">
@@ -56,5 +62,17 @@ export default function ProductTable() {
     return { ...p, createdAt: new Date(p.createdAt).toDateString() };
   });
 
-  return <DataGrid columns={columns} rows={rows}></DataGrid>;
+  return (
+    <>
+      {viewModalId && (
+        <ViewModal
+          open={viewModalId ? true : false}
+          handleClose={() => setViewModalId(undefined)}
+          productId={products.find((p) => p.id === viewModalId).id}
+        />
+      )}
+
+      <DataGrid columns={columns} rows={rows} />
+    </>
+  );
 }
