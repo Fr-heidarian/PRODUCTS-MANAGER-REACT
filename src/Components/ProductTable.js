@@ -12,20 +12,33 @@ export default function ProductTable() {
   const [products, setProducts] = useState([]);
   const [viewModalId, setViewModalId] = useState(undefined);
 
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 5,
+    page: 1,
+  });
+
+  const [rowCount, setRowCount] = useState(0);
+
+  // let rowCount = 0;
+
   useEffect(() => {
     const readProducts = async () => {
       try {
-        const response = await axios.get(PRODUCTS_URL);
+        const response = await axios.get(
+          `${PRODUCTS_URL}?page=${paginationModel.page}&limit=${paginationModel.pageSize}`
+        );
 
         if (response.status === 200) {
           setProducts(response.data.products);
+          // rowCount = response.data.count;
+          setRowCount(response.data.count);
         }
       } catch (e) {
         console.log(e);
       }
     };
     readProducts();
-  }, []);
+  }, [paginationModel.page, paginationModel.pageSize]);
 
   const columns = [
     { field: "id", headerName: "ID", width: 80 },
@@ -72,7 +85,15 @@ export default function ProductTable() {
         />
       )}
 
-      <DataGrid columns={columns} rows={rows} />
+      <DataGrid
+        columns={columns}
+        rows={rows}
+        paginationMode="server"
+        rowCount={rowCount}
+        pageSizeOptions={[5, 10, 25]}
+        paginationModel={paginationModel}
+        onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
+      />
     </>
   );
 }
