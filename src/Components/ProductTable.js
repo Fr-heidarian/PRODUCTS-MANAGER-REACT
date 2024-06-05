@@ -7,14 +7,16 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ViewModal from "./ViewModal";
+import EditModal from "./EditModal";
 
 export default function ProductTable() {
   const [products, setProducts] = useState([]);
   const [viewModalId, setViewModalId] = useState(undefined);
+  const [EditModalId, setEditModalId] = useState(undefined);
 
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 5,
-    page: 1,
+    page: 0,
   });
 
   const [rowCount, setRowCount] = useState(0);
@@ -25,7 +27,9 @@ export default function ProductTable() {
     const readProducts = async () => {
       try {
         const response = await axios.get(
-          `${PRODUCTS_URL}?page=${paginationModel.page}&limit=${paginationModel.pageSize}`
+          `${PRODUCTS_URL}?page=${paginationModel.page + 1}&limit=${
+            paginationModel.pageSize
+          }`
         );
 
         if (response.status === 200) {
@@ -59,7 +63,10 @@ export default function ProductTable() {
             >
               <PreviewIcon />
             </IconButton>
-            <IconButton color="warning">
+            <IconButton
+              color="warning"
+              onClick={() => setEditModalId(params.id)}
+            >
               <EditIcon />
             </IconButton>
             <IconButton color="error">
@@ -82,6 +89,13 @@ export default function ProductTable() {
           open={viewModalId ? true : false}
           handleClose={() => setViewModalId(undefined)}
           productId={products.find((p) => p.id === viewModalId).id}
+        />
+      )}
+
+      {EditModalId && (
+        <EditModal
+          open={EditModalId ? true : false}
+          handleClose={() => setEditModalId(undefined)}
         />
       )}
 
