@@ -9,14 +9,24 @@ export default function EditModal({ open, handleClose, product }) {
 
   const [tempName, setTempName] = useState(name);
   const [tempPrice, setTempPrice] = useState(price);
-  const [tempcount, setTempCount] = useState(countInStock);
+  const [count, setCount] = useState(countInStock);
 
   const editProduct = async () => {
-    await axios.put(`${PRODUCTS_URL}/${id}`);
+    await axios.put(`${PRODUCTS_URL}/${id}`, {
+      name: tempName,
+      price: tempPrice,
+      countInStock: count,
+    });
+    handleClose();
   };
 
   return (
-    <Modal open={open} handleClose={handleClose} title={"Edit Modal"}>
+    <Modal
+      open={open}
+      handleClose={handleClose}
+      handleOk={editProduct}
+      title={"Edit Modal"}
+    >
       <TextField
         autoFocus
         required
@@ -53,8 +63,8 @@ export default function EditModal({ open, handleClose, product }) {
         type="number"
         fullWidth
         variant="standard"
-        value={tempcount}
-        onChange={(e) => setTempCount(e.target.value)}
+        value={count}
+        onChange={(e) => setCount(e.target.value)}
       />
     </Modal>
   );
