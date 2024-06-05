@@ -1,23 +1,22 @@
 import { TextField } from "@mui/material";
 import Modal from "./Modal";
 import { useState } from "react";
+import { PRODUCTS_URL } from "../api/api";
+import axios from "../api/http";
 
+export default function EditModal({ open, handleClose, product }) {
+  const { id, name, price, countInStock } = product;
 
-export default function EditModal({ open, handleClose }) {
-  
+  const [tempName, setTempName] = useState(name);
+  const [tempPrice, setTempPrice] = useState(price);
+  const [tempcount, setTempCount] = useState(countInStock);
 
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [count, setCount] = useState(0);
-
-
+  const editProduct = async () => {
+    await axios.put(`${PRODUCTS_URL}/${id}`);
+  };
 
   return (
-    <Modal
-      open={open}
-      handleClose={handleClose}
-      title={"Edit Modal"}
-    >
+    <Modal open={open} handleClose={handleClose} title={"Edit Modal"}>
       <TextField
         autoFocus
         required
@@ -28,8 +27,8 @@ export default function EditModal({ open, handleClose }) {
         type="text"
         fullWidth
         variant="standard"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={tempName}
+        onChange={(e) => setTempName(e.target.value)}
       />
       <TextField
         autoFocus
@@ -41,8 +40,8 @@ export default function EditModal({ open, handleClose }) {
         type="text"
         fullWidth
         variant="standard"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
+        value={tempPrice}
+        onChange={(e) => setTempPrice(e.target.value)}
       />
       <TextField
         autoFocus
@@ -54,8 +53,8 @@ export default function EditModal({ open, handleClose }) {
         type="number"
         fullWidth
         variant="standard"
-        value={count}
-        onChange={(e) => setCount(e.target.value)}
+        value={tempcount}
+        onChange={(e) => setTempCount(e.target.value)}
       />
     </Modal>
   );

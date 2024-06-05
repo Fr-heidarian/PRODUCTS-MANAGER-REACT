@@ -96,6 +96,7 @@ export default function ProductTable() {
         <EditModal
           open={EditModalId ? true : false}
           handleClose={() => setEditModalId(undefined)}
+          product={products.find((p) => p.id === EditModalId)}
         />
       )}
 
