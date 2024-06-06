@@ -109,6 +109,7 @@ export default function ProductTable() {
         <DeleteModal
           open={deleteModalId ? true : false}
           handleClose={() => setDeleteModalId(undefined)}
+          id={deleteModalId}
         />
       )}
 
