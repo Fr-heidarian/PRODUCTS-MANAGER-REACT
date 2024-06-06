@@ -8,11 +8,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ViewModal from "./ViewModal";
 import EditModal from "./EditModal";
+import DeleteModal from "./DeleteModal";
 
 export default function ProductTable() {
   const [products, setProducts] = useState([]);
   const [viewModalId, setViewModalId] = useState(undefined);
   const [EditModalId, setEditModalId] = useState(undefined);
+  const [deleteModalId, setDeleteModalId] = useState(undefined);
 
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 5,
@@ -69,7 +71,10 @@ export default function ProductTable() {
             >
               <EditIcon />
             </IconButton>
-            <IconButton color="error">
+            <IconButton
+              color="error"
+              onClick={() => setDeleteModalId(params.id)}
+            >
               <DeleteIcon />
             </IconButton>
           </>
@@ -97,6 +102,13 @@ export default function ProductTable() {
           open={EditModalId ? true : false}
           handleClose={() => setEditModalId(undefined)}
           product={products.find((p) => p.id === EditModalId)}
+        />
+      )}
+
+      {deleteModalId && (
+        <DeleteModal
+          open={deleteModalId ? true : false}
+          handleClose={() => setDeleteModalId(undefined)}
         />
       )}
 

@@ -28,15 +28,11 @@ export default function ViewProduct({ open, handleClose, productId }) {
       }
     };
     viewProduct();
+    handleClose();
   }, []);
 
   return (
-    <Modal
-      open={open}
-      handleOk={handleClose}
-      handleClose={handleClose}
-      title="View Product"
-    >
+    <Modal open={open} handleClose={handleClose} title="View Product">
       <div style={{ margin: "10px" }}>
         <strong>Name:</strong> {productInfo.name}
       </div>
