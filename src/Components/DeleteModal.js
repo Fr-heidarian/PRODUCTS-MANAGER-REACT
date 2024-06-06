@@ -3,6 +3,7 @@ import axios from "../api/http";
 import Modal from "./Modal";
 
 export default function DeleteModal({ open, handleClose, id }) {
+    
   const deleteProduct = async () => {
     try {
       await axios.delete(`${PRODUCTS_URL}/${id}`);

@@ -6,7 +6,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { useState } from "react";
 import CreateModal from "./CreateModal";
 
-export default function Header() {
+export default function Header({ onRefresh }) {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -29,7 +29,12 @@ export default function Header() {
           >
             Add
           </Button>
-          <Button variant="contained" color="info" endIcon={<RefreshIcon />}>
+          <Button
+            variant="contained"
+            color="info"
+            endIcon={<RefreshIcon />}
+            onClick={() => onRefresh()}
+          >
             Refresh
           </Button>
         </Item>

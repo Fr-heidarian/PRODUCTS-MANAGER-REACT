@@ -10,7 +10,7 @@ import ViewModal from "./ViewModal";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
 
-export default function ProductTable() {
+export default function ProductTable({refresh}) {
   const [products, setProducts] = useState([]);
   const [viewModalId, setViewModalId] = useState(undefined);
   const [EditModalId, setEditModalId] = useState(undefined);
@@ -44,7 +44,7 @@ export default function ProductTable() {
       }
     };
     readProducts();
-  }, [paginationModel.page, paginationModel.pageSize]);
+  }, [paginationModel.page, paginationModel.pageSize,refresh]);
 
   const columns = [
     { field: "id", headerName: "ID", width: 80 },
