@@ -40,7 +40,16 @@ export default function ProductTable({ refresh, queryString }) {
         console.log(e);
       }
     };
-    readProducts();
+
+    let timerId;
+
+    if (queryString) {
+      timerId = setTimeout(readProducts, 1000);
+    } else {
+      readProducts();
+    }
+
+    return () => clearTimeout(timerId);
   }, [paginationModel.page, paginationModel.pageSize, refresh, queryString]);
 
   const columns = [
