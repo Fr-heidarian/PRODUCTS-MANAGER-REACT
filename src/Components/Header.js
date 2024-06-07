@@ -6,8 +6,9 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { useState } from "react";
 import CreateModal from "./CreateModal";
 
-export default function Header({ onRefresh }) {
+export default function Header({ onRefresh, queryString, handleChange }) {
   const [showModal, setShowModal] = useState(false);
+  
   return (
     <>
       {showModal && (
@@ -15,7 +16,10 @@ export default function Header({ onRefresh }) {
       )}
       <Grid item xs={8}>
         <Item>
-          <SearchBar />
+          <SearchBar
+            value={queryString}
+            handleChange={(text) => handleChange(text)}
+          />
         </Item>
       </Grid>
       <Grid item xs={4}>

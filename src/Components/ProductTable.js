@@ -10,7 +10,7 @@ import ViewModal from "./ViewModal";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
 
-export default function ProductTable({refresh}) {
+export default function ProductTable({ refresh, queryString }) {
   const [products, setProducts] = useState([]);
   const [viewModalId, setViewModalId] = useState(undefined);
   const [EditModalId, setEditModalId] = useState(undefined);
@@ -23,20 +23,17 @@ export default function ProductTable({refresh}) {
 
   const [rowCount, setRowCount] = useState(0);
 
-  // let rowCount = 0;
-
   useEffect(() => {
     const readProducts = async () => {
       try {
         const response = await axios.get(
-          `${PRODUCTS_URL}?page=${paginationModel.page + 1}&limit=${
-            paginationModel.pageSize
-          }`
+          `${PRODUCTS_URL}?name=${queryString}&page=${
+            paginationModel.page + 1
+          }&limit=${paginationModel.pageSize}`
         );
 
         if (response.status === 200) {
           setProducts(response.data.products);
-          // rowCount = response.data.count;
           setRowCount(response.data.count);
         }
       } catch (e) {
@@ -44,18 +41,39 @@ export default function ProductTable({refresh}) {
       }
     };
     readProducts();
-  }, [paginationModel.page, paginationModel.pageSize,refresh]);
+  }, [paginationModel.page, paginationModel.pageSize, refresh, queryString]);
 
   const columns = [
     { field: "id", headerName: "ID", width: 80 },
     { field: "name", headerName: "Name", width: 250 },
-    { field: "price", headerName: "Price", width: 100, type: "number" },
-    { field: "countInStock", headerName: "Count", width: 100, type: "number" },
-    { field: "createdAt", headerName: "Create Date", width: 300 },
+    {
+      field: "price",
+      headerName: "Price",
+      headerAlign: "left",
+      width: 100,
+      type: "number",
+      align: "left",
+    },
+    {
+      field: "countInStock",
+      headerName: "Count",
+      headerAlign: "left",
+      width: 90,
+      type: "number",
+      align: "left",
+      headerClassName: "custom-header",
+    },
+    {
+      field: "createdAt",
+      headerName: "Create Date",
+      width: 250,
+    },
     {
       field: "actions",
       headerName: "Actions",
+      headerAlign: "center",
       width: 150,
+      align: "center",
       renderCell: (params) => {
         return (
           <>
